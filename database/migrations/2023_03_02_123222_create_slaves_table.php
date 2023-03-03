@@ -19,6 +19,7 @@ class CreateSlavesTable extends Migration
             $table->string('name');
             $table->string('owner_name');
             $table->string('password');
+            $table->string('level');
             $table->softDeletes();
             $table->timestamps();
         });

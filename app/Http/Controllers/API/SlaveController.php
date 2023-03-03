@@ -27,6 +27,7 @@ class SlaveController extends Controller
             "name" => "required|string",
             "owner_name" => "required|string",
             "password" => "required|string",
+            "level" => "required|string",
             // "email" => "required|string|email:rfc,dns|unique:table_name,column"
         ]);
 
@@ -62,6 +63,7 @@ class SlaveController extends Controller
             "name" => "string",
             "owner_name" => "string",
             "password" => "string",
+            "level" => "string",
         ]);
 
         if($validator->fails()){

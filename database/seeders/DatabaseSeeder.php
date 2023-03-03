@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             "code" => "mk01ade",
             "name" => "Adewale",
             "owner_name" => "Edward Kenway",
-            "password" => bcrypt("jackdaw00")
+            "password" => bcrypt("jackdaw00"),
+            "level" => "leader"
         ]);
     }
 }
