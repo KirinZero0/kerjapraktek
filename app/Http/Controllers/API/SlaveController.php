@@ -108,7 +108,7 @@ class SlaveController extends Controller
         $slaves->delete();
 
         return response()->json([
-            "message" => "Successfully Deleted a Slave with id {$id}",
+            "message" => "Successfully Killed a Slave with id {$id}",
         ], Response::HTTP_OK);
     }
 }
