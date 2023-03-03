@@ -15,11 +15,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Slave::create([
-            "code" => "mk01ade",
+            "codename" => "mk01ade",
             "name" => "Adewale",
             "owner_name" => "Edward Kenway",
             "password" => bcrypt("jackdaw00"),
-            "level" => "leader"
         ]);
     }
 }

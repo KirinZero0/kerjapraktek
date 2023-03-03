@@ -13,11 +13,11 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            "code"=>"required|string",
+            "codename"=>"required|string",
             "password" => "required|string",
         ]);
 
-        $slave = Slave::firstWhere("code", $request->code);
+        $slave = Slave::firstWhere("codename", $request->codename);
 
         if(!$slave || !Hash::check($request->password, $slave->password)) {
             return response()->json([
