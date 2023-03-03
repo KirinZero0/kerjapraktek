@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Slave;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        Slave::create([
+            "code" => "mk01ade",
+            "name" => "Adewale",
+            "owner_name" => "Edward Kenway",
+            "password" => bcrypt("jackdaw00")
+        ]);
     }
 }

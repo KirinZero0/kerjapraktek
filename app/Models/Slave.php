@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class Slave extends Authenticatable
+{
+    use HasFactory,SoftDeletes,HasApiTokens;
+
+    protected $table = 'slaves';
+
+    protected $guarded = [
+        "id",
+        "created_at",
+        "updated_at",
+    ];
+    protected $hidden = [];
+}
+
