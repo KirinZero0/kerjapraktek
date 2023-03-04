@@ -1,38 +1,37 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api\V1\Slaver;
 
 use App\Http\Controllers\Controller;
-use App\Models\Slave;
+use App\Models\Slaver;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
-class SlaveController extends Controller
+class SlaverController extends Controller
 {
     public function index(){
-        $slaves = Slave::all();
+        $slavers = Slaver::all();
 
         return response()->json([
-        "message" => "Slaves Retrieved Successfully",
-        "data" => $slaves
+        "message" => "Slavers Retrieved Successfully",
+        "data" => $slavers
         ], Response::HTTP_OK);
     }
 
 
     public function store(Request $request){
         $validator = Validator::make($request->all(),[
-            "codename" => "required|string|unique:slaves,codename",
+            "codename" => "required|string|unique:slavers,codename",
             "name" => "required|string",
-            "owner_name" => "required|string",
             "password" => "required|string",
             // "email" => "required|string|email:rfc,dns|unique:table_name,column"
         ]);
 
         if($validator->fails()){
             return response()->json([
-                "message" => "Failed Registering Slave",
+                "message" => "Failed Registering Slaver",
                 "errors" => $validator->errors()
             ], Response::HTTP_NOT_ACCEPTABLE);
         }
@@ -41,24 +40,24 @@ class SlaveController extends Controller
         $validated["password"] = bcrypt($validated["password"]);
 
         try {
-            $registeredSlave = Slave::create($validated);
+            $registeredSlaver = Slaver::create($validated);
         } catch (\Exception $e) {
             return response()->json([
-                "message" => "Failed Registering Slave",
+                "message" => "Failed Registering Slaver",
                 "errors" => $e->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         
         return response()->json([
-            "message" => "Successfully Registering Slave",
-            "data" => $registeredSlave
+            "message" => "Successfully Registering Slaver",
+            "data" => $registeredSlaver
         ], Response::HTTP_CREATED);
 
     }
 
     public function update(Request $request, $id){
         $validator = Validator::make($request->all(),[
-            "codename" => "string|unique:slaves,codename",
+            "codename" => "string|unique:slavers,codename",
             "name" => "string",
             "owner_name" => "string",
             "password" => "string",
@@ -66,7 +65,7 @@ class SlaveController extends Controller
 
         if($validator->fails()){
             return response()->json([
-                "message" => "Failed Registering Slave",
+                "message" => "Failed Registering Slaver",
                 "errors" => $validator->errors()
             ], Response::HTTP_NOT_ACCEPTABLE);
         }
@@ -77,36 +76,36 @@ class SlaveController extends Controller
         }
 
         try {
-            $slaves = Slave::findorFail($id);
-            $slaves->update($validated);
+            $slavers = Slaver::findorFail($id);
+            $slavers->update($validated);
         } catch (\Exception $e) {
             return response()->json([
-                "message" => "Failed Updating Slave",
+                "message" => "Failed Updating Slaver",
                 "errors" => $e->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         return response()->json([
-            "message" => "Successfully Updating Slave",
-            "data" => $slaves
+            "message" => "Successfully Updating Slaver",
+            "data" => $slavers
         ], Response::HTTP_OK);
     }
 
 
     public function show($id){
-        $slaves = Slave::findOrFail($id);
+        $slavers = Slaver::findOrFail($id);
 
         return response()->json([
-            "message" => "Successfully Fetched a Slave",
-            "data" => $slaves
+            "message" => "Successfully Fetched a Slaver",
+            "data" => $slavers
         ], Response::HTTP_OK);
     }
 
     public function destroy($id){
-        $slaves = Slave::findOrFail($id);
-        $slaves->delete();
+        $slavers = Slaver::findOrFail($id);
+        $slavers->delete();
 
         return response()->json([
-            "message" => "Successfully Killed a Slave with id {$id}",
+            "message" => "Successfully Killed a Slaver with id {$id}",
         ], Response::HTTP_OK);
     }
 }

@@ -1,43 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
+use App\Http\Resources\LoginResource;
 use Illuminate\Http\Request;
 use App\Models\Slave;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            "codename"=>"required|string",
-            "password" => "required|string",
-        ]);
-
         $slave = Slave::firstWhere("codename", $request->codename);
 
-        if(!$slave || !Hash::check($request->password, $slave->password)) {
-            return response()->json([
-                "message" => "Bad Credentials"
-            ], Response::HTTP_NOT_FOUND);
+        if(!blank($slave) && Hash::check($request->password, $slave->password)) {
+            return new LoginResource($slave);
         }
-
-        // $token = $request->user()->createToken($request->sanctum_token);
-        $token = $slave->createToken("sanctum_token")->plainTextToken;
-
-        return response()->json([
-            "message"=>"Slave Logged In",
-            "token" => $token
-        ], Response::HTTP_OK);
-
+        throw ValidationException::withMessages(['validation' => 'your credentials are incorrect']);
     }
 
     public function logout()
     {
-        auth()->user()->tokens()->delete();
+        request()->user()->currentAccessToken()->delete();
 
         return response()->json([
             "message" => "Slave Escaped"
