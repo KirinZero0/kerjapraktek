@@ -8,33 +8,35 @@ use App\Http\Resources\LoginResource;
 use Illuminate\Http\Request;
 use App\Models\Slave;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class AuthController extends Controller
+class AuthControllerMulti extends Controller
 {
     public function login(LoginRequest $request)
     {
+        $credentials = $request->validated();;
 
-        $slave = Slave::firstWhere("codename", $request->codename);
-
-        if(!blank($slave) && Hash::check($request->password, $slave->password)) 
+        if(Auth::guard('slaves')->attempt($credentials)) 
         {
-            return new LoginResource($slave);
+            $user = Auth::guard('slaves')->user();
+            return new LoginResource($user);
+        } 
+        if (Auth::guard('slavers')->attempt($credentials))
+        {
+            $user = Auth::guard('slavers')->user();
+            return new LoginResource($user);
         }
-
         throw ValidationException::withMessages(['validation' => 'your credentials are incorrect']);
-
     }
 
     public function logout()
     {
-
         request()->user()->currentAccessToken()->delete();
 
         return response()->json([
             "message" => "Slave Escaped"
         ], Response::HTTP_OK);
-        
     }
 }

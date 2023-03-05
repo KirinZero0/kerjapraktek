@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Slaver;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class SlaverSeeder extends Seeder
 {
@@ -17,7 +18,7 @@ class SlaverSeeder extends Seeder
         Slaver::create([
             "codename" => "kenway",
             "name" => "Haytham Kenway",
-            "password" => bcrypt("templar00"),
+            "password" => Hash::make("templar00"),
         ]);
     }
 }

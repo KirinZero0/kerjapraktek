@@ -3,6 +3,8 @@ use App\Http\Controllers\Api\V1\Slave\SlaveController;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthControllerMulti;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +22,8 @@ Route::put('slaves/{id}',[SlaveController::class, 'update']);
 Route::get('slaves/{id}',[SlaveController::class, 'show']);
 Route::delete('slaves/{id}',[SlaveController::class, 'destroy']);
 
-Route::post('auth/login', [AuthController::class, 'login']);
+// Route::post('auth/login', [AuthControllerMulti::class, 'login']);
+Route::middleware(['auth:sanctum', 'multi.auth'])->post('auth/login', [AuthControllerMulti::class, 'login'])->name('login');
 
 Route::middleware('auth:sanctum')->post('/auth/logout',[AuthController::class, 'logout']);
 

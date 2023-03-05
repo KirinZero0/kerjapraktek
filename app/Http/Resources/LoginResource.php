@@ -14,8 +14,10 @@ class LoginResource extends JsonResource
      */
     public function toArray($request)
     {
+        $token = $this->resource->createToken('authToken');
+        
         return [
-            'token' => $this->createToken("sanctum_token")->plainTextToken
+            'token' => $token->plainTextToken,
         ];
     }
 }
