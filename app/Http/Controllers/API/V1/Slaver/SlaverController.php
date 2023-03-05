@@ -7,6 +7,7 @@ use App\Models\Slaver;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class SlaverController extends Controller
@@ -37,7 +38,7 @@ class SlaverController extends Controller
         }
 
         $validated = $validator->validated();
-        $validated["password"] = bcrypt($validated["password"]);
+        $validated["password"] = Hash::make($validated["password"]);
 
         try {
             $registeredSlaver = Slaver::create($validated);
