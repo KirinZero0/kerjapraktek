@@ -14,6 +14,13 @@ class Slave extends Authenticatable
 
     protected $table = 'slaves';
 
+    protected $fillable = [
+        'codename',
+        'name',
+        'owner_name',
+        'password',
+    ];
+
     protected $guarded = [
         "id",
         "created_at",
