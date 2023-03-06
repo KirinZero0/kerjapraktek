@@ -33,7 +33,7 @@ class AuthController extends Controller
         request()->user()->currentAccessToken()->delete();
 
         return response()->json([
-            "message" => "Slave Escaped"
+            "message" => "Logged Out"
         ], Response::HTTP_OK);
         
     }
