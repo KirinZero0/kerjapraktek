@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api\V1\Slaver\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
-use SebastianBergmann\Type\FalseType;
 
 class LoginRequest extends FormRequest
 {

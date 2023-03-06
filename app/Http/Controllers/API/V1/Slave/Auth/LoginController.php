@@ -1,33 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1\Slave\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
-use App\Http\Resources\LoginResource;
-use Illuminate\Http\Request;
+use App\Http\Requests\Api\V1\Slave\Auth\LoginRequest;
+use App\Http\Resources\Api\V1\Slave\Auth\LoginResource;
 use App\Models\Slave;
-use App\Models\Slaver;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class AuthControllerMulti extends Controller
+class LoginController extends Controller
 {
     public function login(LoginRequest $request)
     {
-        $credentials = $request->validated();;
+        $credentials = $request->validated();
 
         $slave = Slave::where('codename', $credentials['codename'])->first();
-        $slaver = Slaver::where('codename', $credentials['codename'])->first();
     
-        if ($slave && Hash::check($credentials['password'], $slave->password)) {
+        if (!blank($slave) && Hash::check($credentials['password'], $slave->password)) {
             return new LoginResource($slave, 'slave');
         }
-        if ($slaver && Hash::check($credentials['password'], $slaver->password)) {
-            return new LoginResource($slaver, 'slaver');
-        }
+        
         throw ValidationException::withMessages(['validation' => 'your credentials are incorrect']);
     }
 
@@ -40,3 +34,4 @@ class AuthControllerMulti extends Controller
         ], Response::HTTP_OK);
     }
 }
+
