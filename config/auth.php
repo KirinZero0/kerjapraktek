@@ -41,14 +41,16 @@ return [
             'provider' => 'users',
         ],
 
-        'slaves' => [
-            'driver' => 'sanctum',
+        'api' => [
+            'driver' => 'token',
             'provider' => 'slaves',
+            'hash' => false,
         ],
     
-        'slavers' => [
-            'driver' => 'sanctum',
+        'slaver-api' => [
+            'driver' => 'token',
             'provider' => 'slavers',
+            'hash' => false,
         ],
     ],
 
@@ -73,6 +75,16 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        
+        'slaves' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Slave::class,
+        ],
+    
+        'slavers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Slaver::class,
         ],
 
         // 'users' => [

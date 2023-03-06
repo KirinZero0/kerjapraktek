@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Resources\LoginResource;
 use Illuminate\Http\Request;
 use App\Models\Slave;
+use App\Models\Slaver;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,15 +19,14 @@ class AuthControllerMulti extends Controller
     {
         $credentials = $request->validated();;
 
-        if(Auth::guard('slaves')->attempt($credentials)) 
-        {
-            $user = Auth::guard('slaves')->user();
-            return new LoginResource($user);
-        } 
-        if (Auth::guard('slavers')->attempt($credentials))
-        {
-            $user = Auth::guard('slavers')->user();
-            return new LoginResource($user);
+        $slave = Slave::where('codename', $credentials['codename'])->first();
+        $slaver = Slaver::where('codename', $credentials['codename'])->first();
+    
+        if ($slave && Hash::check($credentials['password'], $slave->password)) {
+            return new LoginResource($slave, 'slave');
+        }
+        if ($slaver && Hash::check($credentials['password'], $slaver->password)) {
+            return new LoginResource($slaver, 'slaver');
         }
         throw ValidationException::withMessages(['validation' => 'your credentials are incorrect']);
     }
