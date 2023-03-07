@@ -24,14 +24,5 @@ class LoginController extends Controller
         
         throw ValidationException::withMessages(['validation' => 'your credentials are incorrect']);
     }
-
-    public function logout()
-    {
-        request()->user()->currentAccessToken()->delete();
-
-        return response()->json([
-            "message" => "Logged Out"
-        ], Response::HTTP_OK);
-    }
 }
 
