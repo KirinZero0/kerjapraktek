@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Slave;
+use App\Models\Buyer;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,11 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Slave::create([
-            "codename" => "mk01ade2",
+        Buyer::create([
+            "codename" => "mk01ade",
             "name" => "Adewale",
-            "owner_name" => "Edward Kenway",
-            "password" => Hash::make("jackdaw001"),
+            "password" => Hash::make("jackdaw00"),
         ]);
     }
 }

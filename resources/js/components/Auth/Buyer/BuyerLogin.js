@@ -3,17 +3,19 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 
-function SlaveLogin() {
+function BuyerLogin() {
     const [codename, setCodename] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [token, setToken] = useState('');
 
     const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('/api/auth/slaves/login', { codename, password })
+    axios.post('/api/auth/buyers/login', { codename, password })
         .then((response) => {
-        // Handle successful login
+            const token = response.data.data.token;
+            setToken(token);
         })
         .catch((error) => {
             setError('Your credentials are incorrect.');
@@ -41,12 +43,9 @@ function SlaveLogin() {
         </div>
 
         {error && <p>{error}</p>}
+        {token && <p>Your token is: {token}</p>}
     </form>
     );
 }
 
-export default SlaveLogin;
-
-if (document.getElementById('slave')) {
-    ReactDOM.render(<SlaveLogin />, document.getElementById('slave'));
-}
+export default BuyerLogin;

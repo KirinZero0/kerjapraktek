@@ -21,7 +21,7 @@
         </style>
     </head>
     <body class="antialiased">
-                <div id="slave"></div>
+                <div id="app"></div>
     </body>
     <script src="{{ asset('/js/app.js') }}"></script>
 </html>

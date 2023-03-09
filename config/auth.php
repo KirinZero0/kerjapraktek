@@ -43,7 +43,7 @@ return [
 
         'api' => [
             'driver' => 'token',
-            'provider' => 'slaves',
+            'provider' => 'buyers',
             'hash' => false,
         ],
     
@@ -77,9 +77,9 @@ return [
             'model' => App\Models\User::class,
         ],
         
-        'slaves' => [
+        'buyers' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Slave::class,
+            'model' => App\Models\Buyer::class,
         ],
     
         'slavers' => [

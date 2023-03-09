@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSlavesTable extends Migration
+class CreateBuyerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateSlavesTable extends Migration
      */
     public function up()
     {
-        Schema::create('slaves', function (Blueprint $table) {
+        Schema::create('buyers', function (Blueprint $table) {
             $table->id();
             $table->string('codename')->unique();
             $table->string('name');
-            $table->string('owner_name');
             $table->string('password');
             $table->softDeletes();
             $table->timestamps();

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Slave\Auth;
+namespace App\Http\Controllers\Api\V1\Buyer\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

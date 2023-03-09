@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Slave\Auth;
+namespace App\Http\Controllers\Api\V1\Buyer\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Slave\Auth\LoginRequest;
-use App\Http\Resources\Api\V1\Slave\Auth\LoginResource;
-use App\Models\Slave;
+use App\Http\Requests\Api\V1\Buyer\Auth\LoginRequest;
+use App\Http\Resources\Api\V1\Buyer\Auth\LoginResource;
+use App\Models\Buyer;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -16,10 +16,10 @@ class LoginController extends Controller
     {
         $credentials = $request->validated();
 
-        $slave = Slave::where('codename', $credentials['codename'])->first();
+        $buyer = Buyer::where('codename', $credentials['codename'])->first();
     
-        if (!blank($slave) && Hash::check($credentials['password'], $slave->password)) {
-            return new LoginResource($slave, 'slave');
+        if (!blank($buyer) && Hash::check($credentials['password'], $buyer->password)) {
+            return new LoginResource($buyer, 'buyer');
         }
         
         throw ValidationException::withMessages(['validation' => 'your credentials are incorrect']);

@@ -8,16 +8,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Slave extends Authenticatable
+class Buyer extends Authenticatable
 {
     use HasFactory,SoftDeletes,HasApiTokens;
 
-    protected $table = 'slaves';
+    protected $table = 'buyers';
 
     protected $fillable = [
         'codename',
         'name',
-        'owner_name',
         'password',
     ];
 

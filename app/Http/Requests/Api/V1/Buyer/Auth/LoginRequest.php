@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api\V1\Slave\Auth;
+namespace App\Http\Requests\Api\V1\Buyer\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
