@@ -8,6 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.3/dist/full.css" rel="stylesheet" type="text/css" />
 
         <!-- Styles -->
         <style>
@@ -24,4 +25,5 @@
                 <div id="app"></div>
     </body>
     <script src="{{ asset('/js/app.js') }}"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </html>
