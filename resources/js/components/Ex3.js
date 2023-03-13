@@ -6,8 +6,9 @@ const Ex3 = () => {
     const dispatch = useDispatch();
     const { currentLogin } = useSelector((state) => state.user);
     useEffect(() => {
+        console.log("e");
         dispatch(getUser());
-    }, [dispatch]);
+    }, []);
 
     return (
         <>

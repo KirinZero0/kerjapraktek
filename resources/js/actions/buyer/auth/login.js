@@ -2,7 +2,7 @@ import axios from "axios";
 import { IS_LOGGED_IN } from "../../type";
 
 export const Login = (codename, password) => (dispatch) => {
-    axios
+    return axios
         .post("/api/auth/buyers/login", { codename, password })
         .then((response) => {
             const token = response.data.data.token;
@@ -14,8 +14,10 @@ export const Login = (codename, password) => (dispatch) => {
                 type: IS_LOGGED_IN,
                 payload: true,
             });
+            return Promise.resolve();
         })
         .catch((error) => {
             console.log(error);
+            return Promise.reject();
         });
 };

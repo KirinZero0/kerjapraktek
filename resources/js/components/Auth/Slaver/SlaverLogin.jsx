@@ -1,23 +1,23 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Login } from "../../../actions/slaver/auth/login";
 import { useNavigate } from "react-router-dom";
 
 function SlaverLogin() {
     const [codename, setCodename] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const [token, setToken] = useState("");
     const dispatch = useDispatch();
-    const { isLogin } = useSelector((state) => state.login);
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(Login(codename, password));
-        navigate("/Current");
+        dispatch(Login(codename, password))
+            .then(() => {
+                navigate("/StoreSlaver");
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     return (
@@ -85,15 +85,6 @@ function SlaverLogin() {
                             >
                                 Sign in
                             </button>
-                            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Don’t have an account yet?{" "}
-                                <a
-                                    href="#"
-                                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                                >
-                                    Sign up
-                                </a>
-                            </p>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Not a slaver?{" "}
                                 <a
