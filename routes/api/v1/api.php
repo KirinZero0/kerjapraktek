@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\Slaver\Auth\LoginController as SlaverLogin;
 use App\Http\Controllers\Api\V1\Slaver\Auth\RegisterController as SlaverRegis;
 use App\Http\Controllers\Api\V1\Slaver\Profile\ProfileController as SlaverProfile;
 use App\Http\Controllers\Api\V1\Buyer\Auth\LogoutController as BuyerLogout;
+use App\Http\Controllers\Api\V1\Products\IdGenerateController;
 use App\Http\Controllers\Api\V1\Slaver\Auth\LogoutController as SlaverLogout;
 use App\Http\Controllers\Api\V1\Products\ProductController;
 
@@ -59,6 +60,7 @@ Route::put('profile/slavers/{id}',[SlaverProfile::class, 'update']);
 
 // Products
 Route::post('product/register',[ProductController::class, 'store']);
+Route::get('/product/generate-id', [IdGenerateController::class, 'generate']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

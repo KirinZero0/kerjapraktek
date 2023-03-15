@@ -4,23 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model
+class ProductImage extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'product_id',
-        'name',
-        'description',
-        'race',
-        'price',
-        // 'image_path',
+        'image_url',
     ];
 
     protected $guarded = [
-        "product_id",
+        "id",
         "created_at",
         "updated_at",
     ];

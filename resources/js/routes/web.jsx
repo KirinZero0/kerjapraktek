@@ -4,14 +4,13 @@ import Home from "../pages/Home";
 import About from "../pages/About";
 import Login1 from "../pages/buyer/auth/Login";
 import Login2 from "../pages/slaver/auth/Login";
-import StoreBuyer from "../pages/buyer/Store";
+import StoreBuyer from "../pages/buyer/store/Store";
 import Regis from "../pages/buyer/auth/Regis";
-import StoreSlaver from "../pages/slaver/Store";
+import StoreSlaver from "../pages/slaver/store/Store";
+import SlavePage from "../pages/slaver/store/Slaves";
+import AddSlave from "../pages/slaver/store/AddSlave";
 
 const Web = () => {
-    const isAuth = sessionStorage.getItem("guard");
-    const isBuyer = sessionStorage.getItem("guard") === "buyer";
-    const isSlaver = sessionStorage.getItem("guard") === "slaver";
     return (
         <Router>
             <Routes>
@@ -25,25 +24,16 @@ const Web = () => {
                 {/* Register Page */}
                 <Route path="/RegisterBuyer" element={<Regis />} />
                 {/* Store Page */}
-                <Route
-                    path="/StoreBuyer"
-                    element={
-                        isBuyer ? <StoreBuyer /> : <Navigate to="/LoginBuyer" />
-                    }
-                />
-                <Route
-                    path="/StoreSlaver"
-                    element={
-                        isSlaver ? (
-                            <StoreSlaver />
-                        ) : (
-                            <Navigate to="/LoginSlaver" />
-                        )
-                    }
-                />
+                <Route path="/StoreBuyer" element={<StoreBuyer />} />
+                <Route path="/StoreSlaver" element={<StoreSlaver />} />
                 {/* <Route path="/Store" element={<Store />} /> */}
                 {/* Slaver Only Page */}
                 {/* Buyer Only Page */}
+                <Route path="/StoreSlaver/Slaves" element={<SlavePage />} />
+                <Route
+                    path="/StoreSlaver/Slaves/SlaveForm"
+                    element={<AddSlave />}
+                />
             </Routes>
         </Router>
     );

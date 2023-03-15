@@ -32,13 +32,13 @@ const NavSlaver = () => {
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
                     <li>
-                        <a href="/Store">Store</a>
+                        <a href="/StoreSlaver">Store</a>
                     </li>
                     <li>
                         <a href="/">Transactions</a>
                     </li>
                     <li>
-                        <a href="/">Slaves</a>
+                        <a href="/StoreSlaver/Slaves">Slaves</a>
                     </li>
                     <li>
                         <a href="/Contacts">Profile</a>

@@ -32,7 +32,7 @@ const NavBuyer = () => {
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
                     <li>
-                        <a href="/Store">Store</a>
+                        <a href="/StoreBuyer">Store</a>
                     </li>
                     <li>
                         <a href="/">Transactions</a>
