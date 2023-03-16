@@ -15,33 +15,28 @@ class ProductController extends Controller
 {
     public function store(ProductRequest $request){
 
-        $validated = $request->validated();
-        DB::beginTransaction();
-
-        try {
+        DB::transaction(function() use ($request)
+        {
             $product = Product::create([
-                'product_id' => $validated['oroduct_id'],
-                'name' => $validated['name'],
-                'description' => $validated['description'],
-                'race' => $validated['race'],
-                'price' => $validated['price'],
+                'custom_id' => $request->custom_id,
+                'name' => $request->name,
+                'description' => $request->description,
+                'race' => $request->race,
+                'price' => $request->price,
             ]);
-    
-            $image = $validated['image'];
-            $imageName = time() . '.' . $image->extension();
-            $imageUrl = $image->storeAs('custom_directory/product_images', $imageName, 'local');
-    
-            $productImage = new ProductImage([
-                'image_url' => $imageUrl,
-            ]);
-            $product->productImages()->save($productImage);
-    
-            DB::commit();
-    
-            return response()->json(['message' => 'Product added successfully']);
-        } catch (Exception $e) {
-            DB::rollback();
-            return response()->json(['error' => 'An error occurred while adding the product'], 500);
-        }
+
+            $images = $request->images;
+
+            foreach ($images as $key => $value) 
+            {
+                $imageName = $value->hashName();
+                $value->storeAs((new ProductImage())->imagePath($product->id), $imageName, 'public');
+                $product->productImages()->create([
+                    'image' => $imageName,
+                ]);
+            }
+
+            return $this->success();
+        });
     }
 }

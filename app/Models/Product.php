@@ -11,7 +11,7 @@ class Product extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'product_id',
+        'custom_id',
         'name',
         'description',
         'race',
@@ -26,4 +26,9 @@ class Product extends Model
     ];
 
     protected $hidden = [];
+
+    public function productImages()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
 }

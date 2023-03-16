@@ -1,38 +1,55 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../../../actions/slaver/addproduct";
+import { useNavigate } from "react-router-dom";
 const SlaveForm = () => {
-    const [generatedId, setGeneratedId] = useState("");
+    const [custom_id, setCustom_Id] = useState("");
     const [name, setName] = useState("");
     const [race, setRace] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
+    const [image, setImage] = useState(null);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     useEffect(() => {
         axios
             .get(" http://127.0.0.1:8000/api/product/generate-id")
             .then((response) => {
-                setGeneratedId(response.data.id);
+                setCustom_Id(response.data.id);
             })
             .catch((error) => {
                 console.error(error);
             });
     }, []);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(addProduct(custom_id, name, description, race, price, image))
+            .then(() => {
+                navigate("/StoreSlaver/Slaves");
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
     return (
         <>
             <div className="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-10">
                 <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
                     Register A Slave
                 </h1>
-                <form>
+                <form onSubmit={handleSubmit} enctype="multipart/form-data">
                     <div className="grid gap-6 mb-8 md:grid-cols-2">
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Product ID</span>
+                                <span className="label-text">Custom ID</span>
                             </label>
                             <input
                                 type="text"
                                 placeholder="Type here"
                                 className="input input-bordered w-full max-w-xs"
-                                value={generatedId}
+                                value={custom_id}
                                 readOnly
                             />
                         </div>
@@ -58,7 +75,6 @@ const SlaveForm = () => {
                                 type="text"
                                 placeholder="Type here"
                                 className="input input-bordered w-full max-w-md"
-                                value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
                         </div>
@@ -69,8 +85,11 @@ const SlaveForm = () => {
                                 </span>
                             </label>
                             <input
+                                name="image"
                                 type="file"
+                                multiple
                                 className="file-input file-input-bordered w-full max-w-xs"
+                                onChange={(e) => setImage(e.target.files[0])}
                             />
                         </div>
                     </div>
@@ -99,7 +118,10 @@ const SlaveForm = () => {
                             />
                         </div>
                         <div className="py-10">
-                            <button className="btn btn-wide btn-lg">
+                            <button
+                                className="btn btn-wide btn-lg"
+                                type="submit"
+                            >
                                 Submit
                             </button>
                         </div>

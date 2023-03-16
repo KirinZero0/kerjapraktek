@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class ProductImage extends Model
 {
@@ -11,7 +12,7 @@ class ProductImage extends Model
 
     protected $fillable = [
         'product_id',
-        'image_url',
+        'image',
     ];
 
     protected $guarded = [
@@ -21,4 +22,21 @@ class ProductImage extends Model
     ];
 
     protected $hidden = [];
+
+    public function imagePath($productId)
+    {
+        return 'products/' . $productId . '/images';
+    }
+
+    public function hasImage()
+    {
+        return !blank($this->image);
+    }
+
+    public function getImageUrl()  
+    {
+        if(!$this->hasImage()) return null;
+
+        return Storage::disk('public')->url($this->imagePath($this->product_id) . '/' . $this->image);
+    }
 }
