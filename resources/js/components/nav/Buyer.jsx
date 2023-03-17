@@ -32,18 +32,18 @@ const NavBuyer = () => {
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
                     <li>
-                        <a href="/StoreBuyer">Store</a>
+                        <a href="/store-buyer">Store</a>
                     </li>
                     <li>
                         <a href="/">Transactions</a>
                     </li>
                     <li>
-                        <a href="/Contacts">Profile</a>
+                        <a href="/">Profile</a>
                     </li>
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn" href="/LoginBuyer">
+                <a className="btn" href="/login-buyer">
                     Logout
                 </a>
             </div>

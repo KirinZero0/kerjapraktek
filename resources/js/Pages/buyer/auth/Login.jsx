@@ -1,4 +1,4 @@
-import BuyerLogin from "../../../components/Auth/Buyer/BuyerLogin";
+import BuyerLogin from "../../../components/Auth/buyer/BuyerLogin";
 
 const Login1 = () => {
     return (

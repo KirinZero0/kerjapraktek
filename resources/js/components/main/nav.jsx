@@ -43,7 +43,7 @@ const Nav = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn" href="/LoginBuyer">
+                <a className="btn" href="/login-buyer">
                     Login
                 </a>
             </div>

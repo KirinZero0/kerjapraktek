@@ -25,16 +25,17 @@ class ProductController extends Controller
                 'price' => $request->price,
             ]);
 
-            $images = $request->images;
-
-            foreach ($images as $key => $value) 
-            {
-                $imageName = $value->hashName();
-                $value->storeAs((new ProductImage())->imagePath($product->id), $imageName, 'public');
-                $product->productImages()->create([
-                    'image' => $imageName,
-                ]);
+            if ($request->hasFile('image')) {
+                $images = $request->file('image');
+                foreach ($images as $key => $image) {
+                    $imageName = $image->hashName();
+                    $image->storeAs((new ProductImage())->imagePath($product->id), $imageName, 'public');
+                    $product->productImages()->create([
+                        'image' => $imageName,
+                    ]);
+                }
             }
+
 
             return $this->success();
         });

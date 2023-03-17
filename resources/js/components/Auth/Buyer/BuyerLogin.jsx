@@ -13,7 +13,7 @@ function BuyerLogin() {
         e.preventDefault();
         dispatch(Login(codename, password))
             .then(() => {
-                navigate("/StoreBuyer");
+                navigate("/store-buyer");
             })
             .catch((error) => {
                 console.log(error);
@@ -107,7 +107,7 @@ function BuyerLogin() {
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Not a buyer?{" "}
                                 <a
-                                    href="/LoginSlaver"
+                                    href="/login-slaver"
                                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >
                                     Sign in as Slaver

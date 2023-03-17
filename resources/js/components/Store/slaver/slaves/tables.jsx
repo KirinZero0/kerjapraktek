@@ -146,7 +146,7 @@ const SlaveTable = () => {
                     {/* foot */}
                 </table>
                 <a
-                    href="/StoreSlaver/Slaves/SlaveForm"
+                    href="/store-slaver/slaves/slave-form"
                     className="fixed z-90 bottom-10 right-8 bg-zinc-500 w-20 h-20 rounded-full drop-shadow-lg flex justify-center items-center text-white text-4xl hover:bg-zinc-400 hover:drop-shadow-2xl hover:animate-bounce duration-300"
                 >
                     +

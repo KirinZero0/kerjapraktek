@@ -16,22 +16,22 @@ const Web = () => {
             <Routes>
                 {/* Landing page */}
                 <Route path="/" element={<Home />} />
-                <Route path="/About" element={<About />} />
+                <Route path="/about" element={<About />} />
                 {/* <Route path="/Contact" element={<Contact />} /> */}
                 {/* Login Page */}
-                <Route path="/LoginBuyer" element={<Login1 />} />
-                <Route path="/LoginSlaver" element={<Login2 />} />
+                <Route path="/login-buyer" element={<Login1 />} />
+                <Route path="/login-slaver" element={<Login2 />} />
                 {/* Register Page */}
-                <Route path="/RegisterBuyer" element={<Regis />} />
+                <Route path="/register-buyer" element={<Regis />} />
                 {/* Store Page */}
-                <Route path="/StoreBuyer" element={<StoreBuyer />} />
-                <Route path="/StoreSlaver" element={<StoreSlaver />} />
+                <Route path="/store-buyer" element={<StoreBuyer />} />
+                <Route path="/store-slaver" element={<StoreSlaver />} />
                 {/* <Route path="/Store" element={<Store />} /> */}
                 {/* Slaver Only Page */}
                 {/* Buyer Only Page */}
-                <Route path="/StoreSlaver/Slaves" element={<SlavePage />} />
+                <Route path="/store-slaver/slaves" element={<SlavePage />} />
                 <Route
-                    path="/StoreSlaver/Slaves/SlaveForm"
+                    path="/store-slaver/slaves/slave-form"
                     element={<AddSlave />}
                 />
             </Routes>

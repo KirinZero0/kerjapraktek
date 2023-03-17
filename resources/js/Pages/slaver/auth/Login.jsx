@@ -1,4 +1,4 @@
-import SlaverLogin from "../../../components/Auth/Slaver/SlaverLogin";
+import SlaverLogin from "../../../components/Auth/slaver/SlaverLogin";
 
 const Login2 = () => {
     return (

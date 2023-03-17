@@ -1,4 +1,4 @@
-import BuyerRegis from "../../../components/Auth/Buyer/BuyerRegis";
+import BuyerRegis from "../../../components/Auth/buyer/BuyerRegis";
 
 const Regis = () => {
     return (
