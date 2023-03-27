@@ -67,6 +67,21 @@ const SlaveForm = () => {
                     error("Oops! Something went wrong.");
                 });
         },
+        revert: (filename, load, error) => {
+            axios
+                .delete("http://127.0.0.1:8000/api/product/delete-tmp", {
+                    data: {
+                        tmp: filename,
+                    },
+                })
+                .then(() => {
+                    load();
+                })
+                .catch((error) => {
+                    console.log(error);
+                    error("Oops! Something went wrong.");
+                });
+        },
     };
 
     return (
@@ -147,6 +162,7 @@ const SlaveForm = () => {
                                     );
                                 }}
                                 server={server}
+                                credits={false}
                             />
                         </div>
                         <div className="form-control mb-8">

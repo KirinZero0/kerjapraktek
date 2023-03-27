@@ -64,6 +64,7 @@ Route::post('product/register',[ProductController::class, 'store']);
 Route::get('/product/generate-id', [IdGenerateController::class, 'generate']);
 
 Route::post('product/upload-tmp', [TmpController::class, 'upload']);
+Route::delete('product/delete-tmp', [TmpController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -10404,6 +10404,18 @@ var SlaveForm = function SlaveForm() {
         console.log(error);
         error("Oops! Something went wrong.");
       });
+    },
+    revert: function revert(filename, load, error) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"]("http://127.0.0.1:8000/api/product/delete-tmp", {
+        data: {
+          tmp: filename
+        }
+      }).then(function () {
+        load();
+      })["catch"](function (error) {
+        console.log(error);
+        error("Oops! Something went wrong.");
+      });
     }
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.Fragment, {
@@ -10505,7 +10517,8 @@ var SlaveForm = function SlaveForm() {
                   return fileItem.file;
                 }));
               },
-              server: server
+              server: server,
+              credits: false
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
             className: "form-control mb-8",
