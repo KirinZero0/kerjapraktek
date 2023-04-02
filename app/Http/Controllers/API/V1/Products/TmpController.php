@@ -30,10 +30,9 @@ class TmpController extends Controller
 
     public function destroy(Request $request)
     {
-        $tmpFiles = session('tmp');
-        
-        foreach ($tmpFiles as $tmpFile) {
-            $db = TmpImage::where('tmp', $tmpFile)->first();
+        $tmpFiles = $request->getContent();
+    
+            $db = TmpImage::where('tmp', $tmpFiles)->first();
             if ($db) {
                 $path = storage_path() . '/app/files/tmp/' . $db->path . '/' . $db->tmp;
                 if (File::exists($path)) {
@@ -48,7 +47,7 @@ class TmpController extends Controller
                     return 'not found';
                 }
             }
-        }
+
     
         return 'deleted';
     }

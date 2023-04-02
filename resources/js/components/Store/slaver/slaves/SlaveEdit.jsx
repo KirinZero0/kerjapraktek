@@ -1,58 +1,49 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct } from "../../../../actions/slaver/addproduct";
-import { useNavigate } from "react-router-dom";
-import { generateProductId } from "../../../../actions/slaver/generateid";
+import { getProduct } from "../../../../actions/slaver/getproduct";
 import { FilePond, registerPlugin } from "react-filepond";
 import "filepond/dist/filepond.min.css";
+import "filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css";
 
 // Import any additional plugins you want to use
+import FilePondPluginFileEncode from "filepond-plugin-file-encode";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import FilePondPluginFilePoster from "filepond-plugin-file-poster";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 
-registerPlugin(FilePondPluginImagePreview);
-const SlaveForm = () => {
-    const [custom_id, setCustom_Id] = useState("");
-    const [name, setName] = useState("");
-    const [race, setRace] = useState("");
-    const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
+registerPlugin(
+    FilePondPluginFilePoster,
+    FilePondPluginFileEncode,
+    FilePondPluginImagePreview
+);
+
+const SlaveEdit = () => {
+    const url = process.env.MIX_API_URL;
+    const { custom_id } = useParams(); // extract the product ID from the URL parameter
+    const [product, setProduct] = useState({});
     const [image, setImage] = useState([]);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
-    const { customid } = useSelector((state) => state.generateid);
+    const { data } = useSelector((state) => state.getproduct);
     useEffect(() => {
-        dispatch(generateProductId());
+        dispatch(getProduct(custom_id));
     }, []);
     useEffect(() => {
-        setCustom_Id(customid);
-    }, [customid]);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        dispatch(addProduct(custom_id, name, description, race, price, image))
-            .then(() => {
-                navigate("/store-slaver/slaves");
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
+        setProduct(data);
+    }, [data]);
 
     const server = {
-        process: "http://127.0.0.1:8000/api/product/upload-tmp",
-        revert: "http://127.0.0.1:8000/api/product/delete-tmp",
+        process: `${url}/product/upload-tmp`,
+        revert: `${url}/product/delete-tmp`,
     };
-
     return (
         <>
             <div className="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-10">
                 <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
                     Register A Slave
                 </h1>
-                <form onSubmit={handleSubmit} encType="multipart/form-data">
+                <form encType="multipart/form-data">
                     <div className="grid gap-6 mb-8 md:grid-cols-2">
                         <div className="form-control">
                             <label className="label">
@@ -62,7 +53,7 @@ const SlaveForm = () => {
                                 type="text"
                                 placeholder="Type here"
                                 className="input input-bordered w-full max-w-xs"
-                                value={custom_id}
+                                value={product.custom_id}
                                 readOnly
                             />
                         </div>
@@ -74,8 +65,13 @@ const SlaveForm = () => {
                                 type="text"
                                 placeholder="Type here"
                                 className="input input-bordered w-full max-w-md"
-                                value={price}
-                                onChange={(e) => setPrice(e.target.value)}
+                                value={product.price}
+                                onChange={(e) =>
+                                    setProduct({
+                                        ...product,
+                                        price: e.target.value,
+                                    })
+                                }
                             />
                         </div>
                     </div>
@@ -88,7 +84,13 @@ const SlaveForm = () => {
                                 type="text"
                                 placeholder="Type here"
                                 className="input input-bordered w-full max-w-md"
-                                onChange={(e) => setName(e.target.value)}
+                                value={product.name}
+                                onChange={(e) =>
+                                    setProduct({
+                                        ...product,
+                                        name: e.target.value,
+                                    })
+                                }
                             />
                         </div>
                         <div className="form-control mb-8">
@@ -99,8 +101,13 @@ const SlaveForm = () => {
                                 type="text"
                                 placeholder="Type here"
                                 className="input input-bordered w-full max-w-md"
-                                value={race}
-                                onChange={(e) => setRace(e.target.value)}
+                                value={product.race}
+                                onChange={(e) =>
+                                    setProduct({
+                                        ...product,
+                                        race: e.target.value,
+                                    })
+                                }
                             />
                         </div>
                     </div>
@@ -109,13 +116,28 @@ const SlaveForm = () => {
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">
-                                    Pick an image
+                                    Add or Delete Images
                                 </span>
                             </label>
                             <FilePond
                                 name="image"
                                 allowMultiple={true}
-                                files={image}
+                                files={
+                                    product.product_images?.map((image) => ({
+                                        source: image.image,
+                                        options: {
+                                            type: "local",
+                                            file: {
+                                                name: image.image,
+                                                type: image.type,
+                                                size: image.size,
+                                            },
+                                            metadata: {
+                                                poster: `/storage/products/${product.id}/images/${image.image}`,
+                                            },
+                                        },
+                                    })) || []
+                                }
                                 onupdatefiles={(fileItems) => {
                                     setImage(
                                         fileItems.map(
@@ -134,8 +156,13 @@ const SlaveForm = () => {
                             <textarea
                                 placeholder="Type here"
                                 className="input input-bordered w-full input-lg max-w-md h-32"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
+                                value={product.description}
+                                onChange={(e) =>
+                                    setProduct({
+                                        ...product,
+                                        description: e.target.value,
+                                    })
+                                }
                             />
                         </div>
                     </div>
@@ -150,4 +177,4 @@ const SlaveForm = () => {
     );
 };
 
-export default SlaveForm;
+export default SlaveEdit;

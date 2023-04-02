@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'custom_id',
@@ -23,6 +23,10 @@ class Product extends Model
         "product_id",
         "created_at",
         "updated_at",
+    ];
+
+    protected $with = [
+        'productImages'
     ];
 
     protected $hidden = [];

@@ -9,9 +9,9 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\TmpImage;
 use Exception;
-use Facade\FlareClient\Stacktrace\File;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,27 +35,61 @@ class ProductController extends Controller
                 $images = $request->file('image');
                 foreach ($images as $key => $image) {
                     $imageName = $image->hashName();
+                    $imageSize = $image->getSize();
+                    $imageType = $image->getClientOriginalExtension();
                     $image->storeAs((new ProductImage())->imagePath($product->id), $imageName, 'public');
                     $product->productImages()->create([
                         'image' => $imageName,
+                        'type' => $imageType,
+                        'size' => $imageSize
                     ]);
                 }
             }
     
-            $tmpImages = TmpImage::all();
-            foreach ($tmpImages as $tmpImage) {
-                $tmpImagePath = storage_path('app/files/tmp/' . $tmpImage->path . '/' . $tmpImage->tmp);
-                if (file_exists($tmpImagePath)) {
-                    unlink($tmpImagePath);
+            $tmpFiles = session('tmp');
+            
+            foreach ($tmpFiles as $tmpFile) {
+                $db = TmpImage::where('tmp', $tmpFile)->first();
+                if ($db) {
+                    $path = storage_path() . '/app/files/tmp/' . $db->path . '/' . $db->tmp;
+                    if (File::exists($path)) {
+                        unlink($path);
+                        rmdir(storage_path('/app/files/tmp/' . $db->path));
+        
+                        TmpImage::where([
+                            'path' => $db->path,
+                            'tmp' => $db->tmp
+                        ])->delete();
+                    } 
                 }
-                rmdir(storage_path('app/files/tmp/' . $tmpImage->path));
-                $tmpImage->delete();
             }
-    
+
             Session::forget('path');
             Session::forget('tmp');
-
+            
             return $this->success();
         });
+    }
+
+    public function show()
+    {
+        $products = Product::with('productImages')->get();
+
+        
+
+        return response()->json([
+            "message" => "Products Retrieved Successfully",
+            "data" =>  $products,
+            ], Response::HTTP_OK);
+    }
+
+    public function showProduct(Product $custom_id)
+    {
+        
+
+        return response()->json([
+            'message' => 'Product retrieved successfully',
+            'data' => $custom_id
+        ], Response::HTTP_OK);
     }
 }

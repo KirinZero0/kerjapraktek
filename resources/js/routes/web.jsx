@@ -9,6 +9,7 @@ import Regis from "../pages/buyer/auth/Regis";
 import StoreSlaver from "../pages/slaver/store/Store";
 import SlavePage from "../pages/slaver/store/Slaves";
 import AddSlave from "../pages/slaver/store/AddSlave";
+import EditSlave from "../pages/slaver/store/EditSlave";
 
 const Web = () => {
     return (
@@ -33,6 +34,10 @@ const Web = () => {
                 <Route
                     path="/store-slaver/slaves/slave-form"
                     element={<AddSlave />}
+                />
+                <Route
+                    path="/store-slaver/slaves/slave-edit/:custom_id"
+                    element={<EditSlave />}
                 />
             </Routes>
         </Router>

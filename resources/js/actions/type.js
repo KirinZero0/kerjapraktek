@@ -5,3 +5,5 @@ export const IS_REGISTERED = "IS_REGISTERED";
 export const CURRENT_LOGIN = "CURRENT_LOGIN";
 export const ADD_PRODUCT = "ADD_PRODUCT";
 export const GENERATE_PRODUCT_ID = "GENERATE_PRODUCT_ID";
+export const GET_PRODUCT = "GET_PRODUCT";
+export const ALL_PRODUCT = "ALL_PRODUCT";
