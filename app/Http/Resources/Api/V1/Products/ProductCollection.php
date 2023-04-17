@@ -3,11 +3,12 @@
 namespace App\Http\Resources\Api\V1\Products;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ProductResource extends JsonResource
+class ProductCollection extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transform the resource collection into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
@@ -15,7 +16,8 @@ class ProductResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'data' => $this->resource
+            'message' => 'Products Retrieved Successfully',
+            'data' => $this->resource,
         ];
     }
 }

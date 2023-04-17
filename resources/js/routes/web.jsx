@@ -10,6 +10,7 @@ import StoreSlaver from "../pages/slaver/store/Store";
 import SlavePage from "../pages/slaver/store/Slaves";
 import AddSlave from "../pages/slaver/store/AddSlave";
 import EditSlave from "../pages/slaver/store/EditSlave";
+import Cart from "../pages/buyer/store/Cart";
 
 const Web = () => {
     return (
@@ -39,6 +40,7 @@ const Web = () => {
                     path="/store-slaver/slaves/slave-edit/:custom_id"
                     element={<EditSlave />}
                 />
+                <Route path="/cart" element={<Cart />} />
             </Routes>
         </Router>
     );

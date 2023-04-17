@@ -38,6 +38,9 @@ const NavBuyer = () => {
                         <a href="/">Transactions</a>
                     </li>
                     <li>
+                        <a href="/cart">Cart</a>
+                    </li>
+                    <li>
                         <a href="/">Profile</a>
                     </li>
                 </ul>

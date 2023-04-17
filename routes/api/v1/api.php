@@ -64,9 +64,13 @@ Route::post('product/register',[ProductController::class, 'store']);
 Route::get('/product/generate-id', [IdGenerateController::class, 'generate']);
 
 Route::post('product/upload-tmp', [TmpController::class, 'upload']);
+Route::post('product/edit-image/{id}', [ProductController::class, 'updateImage']);
 Route::delete('product/delete-tmp', [TmpController::class, 'destroy']);
+Route::delete('product/delete-tmp2', [TmpController::class, 'destroy2']);
+Route::delete('product/delete-image/{id}', [ProductController::class, 'deleteImage']);
 Route::get('product/show', [ProductController::class, 'show']);
 Route::get('product/show/{custom_id:custom_id}', [ProductController::class, 'showProduct']);
+Route::put('/product/edit/{id}', [ProductController::class, 'edit']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

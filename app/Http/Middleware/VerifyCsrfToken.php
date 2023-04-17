@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'api/product/upload-tmp',
-        'api/product/delete-tmp'
+        'api/product/delete-tmp',
+        'api/product/delete-tmp2'
     ];
 }

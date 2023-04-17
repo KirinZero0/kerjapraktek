@@ -7,3 +7,6 @@ export const ADD_PRODUCT = "ADD_PRODUCT";
 export const GENERATE_PRODUCT_ID = "GENERATE_PRODUCT_ID";
 export const GET_PRODUCT = "GET_PRODUCT";
 export const ALL_PRODUCT = "ALL_PRODUCT";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+export const UPDATE_IMAGE = "UPDATE_IMAGE";
+export const DELETE_IMAGE = "DELETE_IMAGE";

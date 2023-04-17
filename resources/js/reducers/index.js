@@ -7,6 +7,9 @@ import regis from "./regis";
 import generateid from "./generateid";
 import getproduct from "./getproduct";
 import allproduct from "./allproduct";
+import updateproduct from "./updateproduct";
+import updateimage from "./updateimage";
+import deleteimage from "./deleteimage";
 
 export default combineReducers({
     message,
@@ -17,4 +20,7 @@ export default combineReducers({
     generateid,
     getproduct,
     allproduct,
+    updateproduct,
+    updateimage,
+    deleteimage,
 });
