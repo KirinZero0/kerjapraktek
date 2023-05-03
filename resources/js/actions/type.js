@@ -10,3 +10,7 @@ export const ALL_PRODUCT = "ALL_PRODUCT";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const UPDATE_IMAGE = "UPDATE_IMAGE";
 export const DELETE_IMAGE = "DELETE_IMAGE";
+export const PRODUCTS = "PRODUCTS";
+export const ADD_CART = "ADD_CART";
+export const GET_PUBLIC_CART = "GET_PUBLIC _CART";
+export const STORE_CART = "STORE_CART";

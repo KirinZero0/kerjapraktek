@@ -10,6 +10,10 @@ import allproduct from "./allproduct";
 import updateproduct from "./updateproduct";
 import updateimage from "./updateimage";
 import deleteimage from "./deleteimage";
+import products from "./products";
+import addcart from "./addcart";
+import showpubliccart from "./showpubliccart";
+import storecart from "./storecart";
 
 export default combineReducers({
     message,
@@ -23,4 +27,8 @@ export default combineReducers({
     updateproduct,
     updateimage,
     deleteimage,
+    products,
+    addcart,
+    showpubliccart,
+    storecart,
 });

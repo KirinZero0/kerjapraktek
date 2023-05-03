@@ -19,6 +19,21 @@ class LoginController extends Controller
         $buyer = Buyer::where('codename', $credentials['codename'])->first();
     
         if (!blank($buyer) && Hash::check($credentials['password'], $buyer->password)) {
+            
+            return new LoginResource($buyer, 'buyer');
+        }
+        
+        throw ValidationException::withMessages(['validation' => 'your credentials are incorrect']);
+    }
+    
+    public function loginCart(LoginRequest $request)
+    {
+        $credentials = $request->validated();
+
+        $buyer = Buyer::where('codename', $credentials['codename'])->first();
+    
+        if (!blank($buyer) && Hash::check($credentials['password'], $buyer->password)) {
+            
             return new LoginResource($buyer, 'buyer');
         }
         
@@ -26,3 +41,4 @@ class LoginController extends Controller
     }
 }
 
+        

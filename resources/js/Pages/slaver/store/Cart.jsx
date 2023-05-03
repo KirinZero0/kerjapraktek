@@ -4,7 +4,8 @@ import Featured from "../../../components/Store/Featured";
 import IsSlaver from "../../../services/auth";
 import { useNavigate } from "react-router-dom";
 import Products from "../../../components/Store/Products";
-const StoreSlaver = () => {
+import TestCart from "../../../components/Store/Cart";
+const Cart = () => {
     const navigate = useNavigate();
     if (!IsSlaver) {
         navigate("/LoginSlaver");
@@ -12,11 +13,9 @@ const StoreSlaver = () => {
     return (
         <>
             <NavSlaver />
-            <Hero />
-            {/* <Featured /> */}
-            <Products />
+            <TestCart/>
         </>
     );
 };
 
-export default StoreSlaver;
+export default Cart;

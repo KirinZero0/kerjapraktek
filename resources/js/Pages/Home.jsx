@@ -1,3 +1,4 @@
+import Products from "../components/Store/Products.jsx";
 import Homepage from "../components/main/homepage.jsx";
 import Nav from "../components/main/nav.jsx";
 
@@ -6,6 +7,7 @@ const Home = () => {
         <>
             <Nav />
             <Homepage />
+            <Products/>
         </>
     );
 };

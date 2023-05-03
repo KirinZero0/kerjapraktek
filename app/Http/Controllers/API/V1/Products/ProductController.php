@@ -144,6 +144,14 @@ class ProductController extends Controller
         return new ProductCollection($products);
     }
 
+    public function showStore()
+    {
+    $products = Product::with('productImages')->paginate(5);
+
+    return new ProductCollection($products);
+
+    }
+
     public function showProduct(Product $custom_id)
     {
         

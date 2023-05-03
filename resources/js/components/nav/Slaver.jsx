@@ -35,6 +35,9 @@ const NavSlaver = () => {
                         <a href="/store-slaver">Store</a>
                     </li>
                     <li>
+                        <a href="/">Test Cart</a>
+                    </li>
+                    <li>
                         <a href="/">Transactions</a>
                     </li>
                     <li>

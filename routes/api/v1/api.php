@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\Slaver\Auth\LoginController as SlaverLogin;
 use App\Http\Controllers\Api\V1\Slaver\Auth\RegisterController as SlaverRegis;
 use App\Http\Controllers\Api\V1\Slaver\Profile\ProfileController as SlaverProfile;
 use App\Http\Controllers\Api\V1\Buyer\Auth\LogoutController as BuyerLogout;
+use App\Http\Controllers\Api\V1\Products\CartController;
 use App\Http\Controllers\Api\V1\Products\IdGenerateController;
 use App\Http\Controllers\Api\V1\Slaver\Auth\LogoutController as SlaverLogout;
 use App\Http\Controllers\Api\V1\Products\ProductController;
@@ -65,12 +66,26 @@ Route::get('/product/generate-id', [IdGenerateController::class, 'generate']);
 
 Route::post('product/upload-tmp', [TmpController::class, 'upload']);
 Route::post('product/edit-image/{id}', [ProductController::class, 'updateImage']);
+
 Route::delete('product/delete-tmp', [TmpController::class, 'destroy']);
 Route::delete('product/delete-tmp2', [TmpController::class, 'destroy2']);
 Route::delete('product/delete-image/{id}', [ProductController::class, 'deleteImage']);
+
 Route::get('product/show', [ProductController::class, 'show']);
+Route::get('product/show/page/', [ProductController::class, 'showStore']);
 Route::get('product/show/{custom_id:custom_id}', [ProductController::class, 'showProduct']);
 Route::put('/product/edit/{id}', [ProductController::class, 'edit']);
+
+// Cart Functionality
+
+// public
+Route::post('product/add-to-cart/{id}', [CartController::class, 'addToCart']);
+Route::get('product/public-cart', [CartController::class, 'showPublicCart']);
+Route::get('product/session', [CartController::class, 'sessionGet']);
+
+
+// storing cart data
+Route::post('product/store-cart', [CartController::class, 'storeCart'])->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
