@@ -17,7 +17,7 @@ class CartResource extends JsonResource
     {
         $quantity = Session::get('cart.' . $this->custom_id, 0);
         return [
-            'product_image' => $this->productImages[0]->getImageUrl(),
+            'product_image' => isset($this->productImages[0]) ? $this->productImages[0]->getImageUrl() : null,
             'name' => $this->name,
             'race' => $this->race,
             'price' => $this->price,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Products;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CartResource;
+use App\Http\Resources\Api\V1\Buyer\CartResource as UserCart;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -31,7 +32,7 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
-        return 'Product added to cart';
+        return session()->get('cart');
     }
 
     public function sessionGet()
@@ -43,30 +44,41 @@ class CartController extends Controller
     public function showPublicCart()
     {   
         $cart = session()->get('cart');
+        
         $cartProductIds = array_keys($cart);
         $products = Product::whereIn('custom_id', $cartProductIds)->get();
 
         return CartResource::collection($products);
     }
 
-    public function storeCart(Request $request)
+    public function addToCart2($productId)
     {
-        $user_id = auth()->id();
-        
+        $user = auth()->user();
 
-        $cart = session('cart');
-        foreach ($cart as $product_id => $quantity) {
-            $product = Product::where('custom_id', $product_id)->first();
-            $cart = new Cart([
-                'user_id' => $user_id,
-                'product_id' => $product->id,
-                'quantity' => $quantity,
+        $cartItem = Cart::where('user_id', $user->id)
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($cartItem) {
+            $cartItem->increment('quantity');
+        } else {
+            $cartItem = new Cart([
+                'user_id' => $user->id,
+                'product_id' => $productId,
+                'quantity' => 1,
             ]);
-            $cart->save();
+            $cartItem->save();
         }
 
-        session()->forget('cart');
-
         return $this->success();
+    }
+
+    public function showCart()
+    {
+        $user_id = auth()->id();
+
+        $cart = Cart::where('user_id', $user_id)->with('product')->get();
+
+        return UserCart::collection($cart);
     }
 }

@@ -146,9 +146,9 @@ class ProductController extends Controller
 
     public function showStore()
     {
-    $products = Product::with('productImages')->paginate(5);
+        $products = Product::with('productImages')->paginate(5);
 
-    return new ProductCollection($products);
+        return new ProductCollection($products);
 
     }
 

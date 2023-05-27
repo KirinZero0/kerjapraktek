@@ -13,7 +13,7 @@ use App\Http\Controllers\Api\V1\Products\IdGenerateController;
 use App\Http\Controllers\Api\V1\Slaver\Auth\LogoutController as SlaverLogout;
 use App\Http\Controllers\Api\V1\Products\ProductController;
 use App\Http\Controllers\Api\V1\Products\TmpController;
-
+use App\Http\Controllers\Api\V1\Products\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -87,6 +87,17 @@ Route::get('product/session', [CartController::class, 'sessionGet']);
 // storing cart data
 Route::post('product/store-cart', [CartController::class, 'storeCart'])->middleware('auth:sanctum');
 
+Route::post('product/add-to-user-cart/{id}', [CartController::class, 'addToCart2'])->middleware('auth:sanctum');
+Route::get('product/user-cart', [CartController::class, 'showCart'])->middleware('auth:sanctum');
+
+// Transaction [TEST XENDIT]
+Route::get('transaction', [TransactionController::class, 'createTransaction']);
+Route::post('transaction/ewallet/{channel_code}', [TransactionController::class, 'createEWalletCharge'])->middleware('auth:sanctum');
+Route::post('transaction/virtual-account/{bank_code}', [TransactionController::class, 'createVirtualAccount'])->middleware('auth:sanctum');
+Route::post('transaction/retail/{retail_name}', [TransactionController::class, 'createRetailPayment'])->middleware('auth:sanctum');
+
+Route::get('transaction/testcal', [TransactionController::class, 'calculateTotalAmount']);
+Route::get('transaction/testitem', [TransactionController::class, 'getCartItems']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

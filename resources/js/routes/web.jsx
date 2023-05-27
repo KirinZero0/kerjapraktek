@@ -12,6 +12,7 @@ import AddSlave from "../pages/slaver/store/AddSlave";
 import EditSlave from "../pages/slaver/store/EditSlave";
 import Cart from "../pages/Cart";
 import LoginCart from "../pages/buyer/auth/LoginCart";
+import BuyerCart from "../pages/buyer/store/Cart";
 
 const Web = () => {
     return (
@@ -42,6 +43,7 @@ const Web = () => {
                     element={<EditSlave />}
                 />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/user-cart" element={<BuyerCart />} />
                 <Route path="/cart/login" element={<LoginCart />} />
             </Routes>
         </Router>

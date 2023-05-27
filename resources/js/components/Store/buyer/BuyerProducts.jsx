@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { allStoreProduct } from "../../actions/store/products";
-import { addCart } from "../../actions/store/addcart";
+import { allStoreProduct } from "../../../actions/store/products";
+import { addToUserCart } from "../../../actions/buyer/cart/addtousercart";
 
-const Products = () => {
+const BuyerProducts = () => {
     const dispatch = useDispatch();
     const { data, pagination } = useSelector((state) => {
         // console.log(state.products.pagination);
@@ -45,8 +45,8 @@ const Products = () => {
     //     });
     // }, []);
 
-    const handleCart = (customId) => {
-        dispatch(addCart(customId))
+    const handleCart = (productId) => {
+        dispatch(addToUserCart(productId))
             .then(() => {
                 console.log("added to cart");
             })
@@ -93,7 +93,7 @@ const Products = () => {
                                         <button
                                             className="btn btn-primary"
                                             onClick={() =>
-                                                handleCart(product.custom_id)
+                                                handleCart(product.id)
                                             }
                                         >
                                             Buy Now
@@ -109,4 +109,4 @@ const Products = () => {
     );
 };
 
-export default Products;
+export default BuyerProducts;

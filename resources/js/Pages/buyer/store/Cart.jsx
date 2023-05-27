@@ -1,8 +1,8 @@
 import NavBuyer from "../../../components/nav/Buyer";
 import IsBuyer from "../../../services/auth";
-import ShoppingCart from "../../../components/Store/buyer/transactions/Cart";
 import { useNavigate } from "react-router-dom";
-const Cart = () => {
+import UserCart from "../../../components/Store/buyer/transactions/Cart";
+const BuyerCart = () => {
     const navigate = useNavigate();
     if (!IsBuyer) {
         navigate("/LoginBuyer");
@@ -10,9 +10,9 @@ const Cart = () => {
     return (
         <>
             <NavBuyer />
-            <ShoppingCart />
+            <UserCart />
         </>
     );
 };
 
-export default Cart;
+export default BuyerCart;

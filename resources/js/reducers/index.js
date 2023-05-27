@@ -14,6 +14,10 @@ import products from "./products";
 import addcart from "./addcart";
 import showpubliccart from "./showpubliccart";
 import storecart from "./storecart";
+import showusercart from "./showusercart";
+import ewallettransaction from "./ewallettransaction";
+import retailtransaction from "./retailtransaction";
+import vatransaction from "./vatransaction";
 
 export default combineReducers({
     message,
@@ -31,4 +35,8 @@ export default combineReducers({
     addcart,
     showpubliccart,
     storecart,
+    showusercart,
+    ewallettransaction,
+    retailtransaction,
+    vatransaction,
 });
