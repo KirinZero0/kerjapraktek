@@ -96,8 +96,9 @@ Route::post('transaction/ewallet/{channel_code}', [TransactionController::class,
 Route::post('transaction/virtual-account/{bank_code}', [TransactionController::class, 'createVirtualAccount'])->middleware('auth:sanctum');
 Route::post('transaction/retail/{retail_name}', [TransactionController::class, 'createRetailPayment'])->middleware('auth:sanctum');
 
-Route::get('transaction/testcal', [TransactionController::class, 'calculateTotalAmount']);
-Route::get('transaction/testitem', [TransactionController::class, 'getCartItems']);
+
+Route::get('transaction/get-all', [TransactionController::class, 'getAllTransactions']);
+Route::get('transaction/get', [TransactionController::class, 'getUserTransactions'])->middleware('auth:sanctum');
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

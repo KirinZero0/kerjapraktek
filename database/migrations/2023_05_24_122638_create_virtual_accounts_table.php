@@ -15,13 +15,12 @@ class CreateVirtualAccountsTable extends Migration
     {
         Schema::create('virtual_accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('external_id');
+            $table->string('reference_id');
             $table->string('name');
             $table->string('amount');
             $table->string('bank_code');
             $table->string('virtual_account_number');
             $table->string('expiration_date');
-            $table->string('status');
             $table->timestamps();
         });
     }

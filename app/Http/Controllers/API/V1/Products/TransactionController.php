@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api\V1\Products;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\V1\Buyer\BuyerTransactionResource;
+use App\Http\Resources\Api\V1\Slaver\TransactionResource;
 use App\Models\Cart;
 use App\Models\EWallet;
+use App\Models\Payment;
 use App\Models\Retail;
 use App\Models\Transaction;
 use App\Models\VirtualAccount;
@@ -49,12 +52,17 @@ class TransactionController extends Controller
         $virtualAccount = VirtualAccounts::create($params);
         
         $va = VirtualAccount::create([
-            'external_id' => $params['external_id'],
+            'reference_id' => $params['external_id'],
             'name' => $params['name'],
             'amount'=>$params['expected_amount'],
             'bank_code' => $params['bank_code'],
-            'virtual_account_number' => 'test',
+            'virtual_account_number' => $virtualAccount['account_number'],
             'expiration_date' => $params['expiration_date']
+        ]);
+
+        $payment = $va->payments()->create([
+            'amount' => $params['expected_amount'],
+            'status' => 'pending'
         ]);
 
         $productItems = $this->getCartItems();
@@ -64,12 +72,14 @@ class TransactionController extends Controller
             $transactions[] = [
                 'user_id' => auth()->user()->id,
                 'product_id' => $item['product_id'],
+                'unit_price' => $item['product_price'],
                 'quantity' => $item['quantity'],
-                'status' => 'pending'
+                'subtotal' => $item['sub_total'],
+                'payment_id' => $payment->id,
             ];
         }
 
-        $va->transactions()->createMany($transactions);
+        Transaction::insert($transactions);
 
         return $virtualAccount;
     }
@@ -97,7 +107,12 @@ class TransactionController extends Controller
             'name' => auth()->user()->name,
             'amount' => $params['amount'],
             'channel_code' => $params['channel_code'],
-            'checkout_url' => 'test',
+            'checkout_url' => $ewalletCharge['actions']['desktop_web_checkout_url'],
+        ]);
+
+        $payment = $ewallet->payments()->create([
+            'amount' => $params['amount'],
+            'status' => 'pending'
         ]);
 
         $productItems = $this->getCartItems();
@@ -107,12 +122,14 @@ class TransactionController extends Controller
             $transactions[] = [
                 'user_id' => auth()->user()->id,
                 'product_id' => $item['product_id'],
+                'unit_price' => $item['product_price'],
                 'quantity' => $item['quantity'],
-                'status' => 'pending'
+                'subtotal' => $item['sub_total'],
+                'payment_id' => $payment->id,
             ];
         }
 
-        $ewallet->transactions()->createMany($transactions);
+        Transaction::insert($transactions);
 
         return $ewalletCharge;
     }
@@ -131,12 +148,17 @@ class TransactionController extends Controller
         $createFPC = Retails::create($params);
 
         $retail = Retail::create([
-            'external_id' => $params['external_id'],
+            'reference_id' => $params['external_id'],
             'name' => $params['name'],
             'retail_outlet' => $params['retail_outlet_name'],
             'amount'=>$params['expected_amount'],
-            'payment_code' => 'test',
+            'payment_code' => $createFPC['payment_code'],
             'expiration_date' => now()->addHours(5)
+        ]);
+
+        $payment = $retail->payments()->create([
+            'amount' => $params['expected_amount'],
+            'status' => 'pending'
         ]);
 
         $productItems = $this->getCartItems();
@@ -146,12 +168,14 @@ class TransactionController extends Controller
             $transactions[] = [
                 'user_id' => auth()->user()->id,
                 'product_id' => $item['product_id'],
+                'unit_price' => $item['product_price'],
                 'quantity' => $item['quantity'],
-                'status' => 'pending'
+                'subtotal' => $item['sub_total'],
+                'payment_id' => $payment->id,
             ];
         }
 
-        $retail->transactions()->createMany($transactions);
+        Transaction::insert($transactions);
 
         return $createFPC;
     }
@@ -182,20 +206,57 @@ class TransactionController extends Controller
 
     public function getCartItems()
     {
-        $userId = '1';
+        $userId = auth()->user()->id;
         $cartItems = Cart::where('user_id', $userId)->get();
 
         foreach ($cartItems as $cartItem) 
         {
             $productId = $cartItem->product->id;
+            $productPrice = $cartItem->product->price;
             $quantity = $cartItem->quantity;
+            $subTotal =  $productPrice*$quantity;
     
             $items[] = [
                 'product_id' => $productId,
+                'product_price' => $productPrice,
                 'quantity' => $quantity,
+                'sub_total' => $subTotal
             ];
         }
 
         return $items;
+    }
+
+    public function completedTransactionStatus($id)
+    {
+        Payment::where('id', $id)
+            ->where('status', 'pending')
+            ->update(['status' => 'completed']);
+
+            return $this->success();
+    }
+
+    public function pendingTransactionStatus($id)
+    {
+        Payment::where('id', $id)
+            ->where('status', 'completed')
+            ->update(['status' => 'pending']);
+
+            return $this->success();
+    }
+
+
+    // Data Fetch
+    public function getAllTransactions(){
+        $transactions = Transaction::with(['product', 'payments'])->get();
+
+        return TransactionResource::collection($transactions);
+    }
+
+    public function getUserTransactions(){
+        $userId = auth()->user()->id;
+        $transactions = Transaction::with(['product', 'payments'])->where('user_id', $userId)->get();
+
+        return BuyerTransactionResource::collection($transactions);
     }
 }

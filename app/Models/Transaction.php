@@ -11,11 +11,22 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','transactionable_id', 'transactionable_type', 'product_id', 'quantity','status'
+        'user_id', 'product_id', 'unit_price', 'quantity', 'subtotal', 'payment_id'
     ];
 
-    public function transactionable(): MorphTo
+    public function product()
     {
-        return $this->morphTo();
+        return $this->belongsTo(Product::class);
     }
+
+    public function payments()
+    {
+        return $this->belongsTo(Payment::class, 'payment_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(Buyer::class, 'user_id');
+    }
+
 }

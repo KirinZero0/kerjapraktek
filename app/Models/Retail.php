@@ -11,11 +11,11 @@ class Retail extends Model
     use HasFactory;
 
     protected $fillable = [
-        'external_id', 'name', 'retail_outlet', 'amount', 'payment_code', 'expiration_date'
+        'reference_id', 'name', 'retail_outlet', 'amount', 'payment_code', 'expiration_date'
     ];
 
-    public function transactions(): MorphMany
+    public function payments(): MorphMany
     {
-        return $this->morphMany(Transaction::class, 'transactionable');
+        return $this->morphMany(Payment::class, 'payable');
     }
 }

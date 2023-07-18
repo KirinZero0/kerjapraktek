@@ -11,11 +11,11 @@ class VirtualAccount extends Model
     use HasFactory;
 
     protected $fillable = [
-        'external_id', 'name', 'amount', 'bank_code', 'virtual_account_number','expiration_date'
+        'reference_id', 'name', 'amount', 'bank_code', 'virtual_account_number','expiration_date'
     ];
 
-    public function transactions(): MorphMany
+    public function payments(): MorphMany
     {
-        return $this->morphMany(Transaction::class, 'transactionable');
+        return $this->morphMany(Payment::class, 'payable');
     }
 }
